@@ -2,7 +2,7 @@ const fs = require("file-system");
 const path = require("path").join(__dirname, "users");
 const steamClient = require('./client.js');
 const keepAlive = require('./server.js')
-const json = require("/home/runner/steam-booster/users/user.json")
+const json = require("./users/user.json")
 
 console.log(JSON.stringify(json));
 
