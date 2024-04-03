@@ -1,54 +1,42 @@
 const http = require('http');
-const { spawn } = require('child_process');
 
-let childProcess;
+let serverRunning = false;
 
 const server = http.createServer((req, res) => {
-    if (req.url === '/start') {
-        if (!childProcess) {
-            console.log('Starting child process...');
-            childProcess = spawn('node', ['your_existing_script.js']);
-
-            childProcess.stdout.on('data', (data) => {
-                console.log(`Child process stdout: ${data}`);
-            });
-
-            childProcess.stderr.on('data', (data) => {
-                console.error(`Child process stderr: ${data}`);
-            });
-
-            childProcess.on('close', (code) => {
-                console.log(`Child process exited with code ${code}`);
-                childProcess = null;
-            });
-
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Child process started.');
+    if (req.method === 'GET') {
+        if (req.url === '/start') {
+            // Handle start request
+            // ...
+        } else if (req.url === '/stop') {
+            // Handle stop request
+            // ...
         } else {
-            res.writeHead(400, { 'Content-Type': 'text/plain' });
-            res.end('Child process is already running.');
+            // Handle other GET requests
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Not found.');
         }
-    } else if (req.url === '/stop') {
-        if (childProcess) {
-            console.log('Stopping child process...');
-            childProcess.kill();
-            childProcess = null;
-
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Child process stopped.');
+    } else if (req.method === 'POST') {
+        if (req.url === '/start') {
+            // Handle start request
+            // ...
+        } else if (req.url === '/stop') {
+            // Handle stop request
+            // ...
         } else {
-            res.writeHead(400, { 'Content-Type': 'text/plain' });
-            res.end('Child process is not running.');
+            // Handle other POST requests
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Not found.');
         }
     } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Not found.');
+        // Handle other request methods
+        res.writeHead(405, { 'Content-Type': 'text/plain' });
+        res.end('Method Not Allowed.');
     }
 });
 
 const PORT = 3001;
 server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
+    console.log(`HTTP server running at http://localhost:${PORT}/`);
 });
 
 
