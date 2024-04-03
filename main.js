@@ -5,34 +5,57 @@ let serverRunning = false;
 const server = http.createServer((req, res) => {
     if (req.method === 'GET') {
         if (req.url === '/start') {
-            // Handle start request
-            // ...
+            handleStartRequest(req, res);
         } else if (req.url === '/stop') {
-            // Handle stop request
-            // ...
+            handleStopRequest(req, res);
         } else {
-            // Handle other GET requests
             res.writeHead(404, { 'Content-Type': 'text/plain' });
             res.end('Not found.');
         }
     } else if (req.method === 'POST') {
         if (req.url === '/start') {
-            // Handle start request
-            // ...
+            handleStartRequest(req, res);
         } else if (req.url === '/stop') {
-            // Handle stop request
-            // ...
+            handleStopRequest(req, res);
         } else {
-            // Handle other POST requests
             res.writeHead(404, { 'Content-Type': 'text/plain' });
             res.end('Not found.');
         }
     } else {
-        // Handle other request methods
         res.writeHead(405, { 'Content-Type': 'text/plain' });
         res.end('Method Not Allowed.');
     }
 });
+
+function handleStartRequest(req, res) {
+    if (!serverRunning) {
+        console.log('Starting your script...');
+        // Replace this with your actual script logic
+        console.log('Your script is now running.');
+        serverRunning = true;
+
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Your script started.');
+    } else {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Your script is already running.');
+    }
+}
+
+function handleStopRequest(req, res) {
+    if (serverRunning) {
+        console.log('Stopping your script...');
+        // Replace this with your actual script logic
+        console.log('Your script is now stopped.');
+        serverRunning = false;
+
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Your script stopped.');
+    } else {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Your script is not running.');
+    }
+}
 
 const PORT = 3001;
 server.listen(PORT, () => {
